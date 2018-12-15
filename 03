@@ -26,8 +26,10 @@ _IPURPLE='\033[45m'
 _ICYAN='\033[46m'
 _IGREY='\033[47m'
 
-#read -p "Path Init : " PATHE
-#cd ~/$PATHE
+
+
+read -p "Path Init : " PATHE
+cd ~/$PATHE
 #clear
 while :
 do
@@ -84,7 +86,7 @@ do
 	 RES=$(cat 08)
 	 echo -e "08 : $RES"
 	 RES=$(cat 09)
-	 if [ "$RES" ==  "163.172.250.12" ] || [ "$RES" == "163.172.250.13"] || [ "$RES" == "163.172.250.11"] || [ "$RES"  == "10.52.1.76"] || [ "$RES" == "10.52.1.12"] || [ "$RES "== "10.52.1.11"] ; then
+	 if [ "$RES" ==  "163.172.250.12" ] || [ "$RES" == "163.172.250.13" ] || [ "$RES" == "163.172.250.11" ] || [ "$RES"  == "10.52.1.76" ] || [ "$RES" == "10.52.1.12" ] || [ "$RES "== "10.52.1.11" ] ; then
 		 echo -e "09 $_GREEN[OK] $_DEF"
 	 else
 		 echo -e "09 $_RED[KO] $_DEF"
