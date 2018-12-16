@@ -26,19 +26,34 @@ _IPURPLE='\033[45m'
 _ICYAN='\033[46m'
 _IGREY='\033[47m'
 
+echo -en "$_CYAN$_IPURPLE"
 
+echo -e "    _____   ____________   ________  ________________ __ __________  "
+echo -e "   /  _/ | / /  _/_  __/  / ____/ / / / ____/ ____/ //_// ____/ __ \\  "
+echo -e "   / //  |/ // /  / /    / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /  "
+echo -e " _/ // /|  // /  / /    / /___/ __  / /___/ /___/ /| |/ /___/ _, _/   "
+echo -e "/___/_/ |_/___/ /_/     \____/_/ /_/_____/\____/_/ |_/_____/_/ |_|    "
+echo -e "$_DEF"
 
-read -p "Path Init : " PATHE
+read -p "$_CYAN Path Init : " PATHE
 cd ~/$PATHE
-#clear
+clear
 while :
 do
  clear
  echo -en "$_CYAN$_IPURPLE"
- echo -e "1           Network            "
- echo -e "2           System             "
- echo -e "3           Scprit             "
- echo -e "0           Exit               "
+
+echo -e "    _____   ____________   ________  ________________ __ __________  "
+echo -e "   /  _/ | / /  _/_  __/  / ____/ / / / ____/ ____/ //_// ____/ __ \\  "
+echo -e "   / //  |/ // /  / /    / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /  "
+echo -e " _/ // /|  // /  / /    / /___/ __  / /___/ /___/ /| |/ /___/ _, _/   "
+echo -e "/___/_/ |_/___/ /_/     \____/_/ /_/_____/\____/_/ |_/_____/_/ |_|    "
+echo -e "$_DEF"
+ echo -en "$_CYAN$_IPURPLE"
+ echo -e "		PRESS 1           Network              "
+ echo -e "		PRESS 2           System               "
+ echo -e "		PRESS 3           Scprit               "
+ echo -e "		PRESS 0           Exit                 "
  echo -e "$_DEF"
   read INPUT 
  case $INPUT in
@@ -49,11 +64,15 @@ do
 		 echo -e "01 $_GREEN[OK] $_DEF"
 	 else
 		 echo -e "01 $_RED[KO] $_DEF"
+		 echo -en "you have wrote this :  "
+		 echo -e " $RES "
 	 fi ;
+	 sleep .5
 	 RES1=$(cat 02 | head -n 1)
 	 RES=$(cat 02 | tail -n 1)
 	 echo -e "02 a) : $RES1"
 	 echo -e "02 b) : $RES"
+	 sleep .5
 	 RES=$(sh 03)
 	 RRES=$(ifconfig -a | grep 'en1' -C 1 | grep 'ether' | awk '{print $2}')
 	 if [ "$RES" == "$RRES" ]; then
@@ -61,6 +80,7 @@ do
 	 else
 		 echo -e "03 $_RED[KO] $_DEF"
 	 fi ;
+	 sleep .5
 	 RES=$(sh 04)
 	 RRES=$(route -n get default | grep 'gateway' | awk '{print$2}')
 	 if [ "$RES" == "$RRES" ]; then
@@ -68,6 +88,7 @@ do
 	 else
 		 echo -e "04 $_RED[KO] $_DEF"
 	 fi ;
+	 sleep .5
 	 RES=$(sh 05)
 	 RRES=$(nslookup slash16.org | grep 'Server' | awk '{print$2}')
 	 if [ "$RES" == "$RRES" ]; then
@@ -75,24 +96,30 @@ do
 	 else
 		 echo -e "05 $_RED[KO] $_DEF"
 	 fi ;
+	 sleep .5
 	 RES=$(cat 06)
 	 echo -e "06 : $RES"
+	 sleep .5
 	 RES=$(cat 07)
 	 if [ "$RES" == "nslookup slash16.org 8.8.8.8" ]; then
 		 echo -e "07 $_GREEN[OK] $_DEF"
 	 else
 		 echo -e "07 $_RED[KO] $_DEF"
 	 fi ;
+	 sleep .5
 	 RES=$(cat 08)
 	 echo -e "08 : $RES"
+	 sleep .5
 	 RES=$(cat 09)
 	 if [ "$RES" ==  "163.172.250.12" ] || [ "$RES" == "163.172.250.13" ] || [ "$RES" == "163.172.250.11" ] || [ "$RES"  == "10.52.1.76" ] || [ "$RES" == "10.52.1.12" ] || [ "$RES "== "10.52.1.11" ] ; then
 		 echo -e "09 $_GREEN[OK] $_DEF"
 	 else
 		 echo -e "09 $_RED[KO] $_DEF"
 	 fi ;
+	 sleep .5
 	 RES=$(cat 11)
 	 echo -e "11 : $RES"
+	 sleep .5
 	 RES=$(sh 12)
 	 RRES=$(ipconfig getpacket en0 | grep yi | awk '{print $3}')
 	 if [ "$RES" == "$RRES" ]; then
@@ -100,10 +127,13 @@ do
 	 else
 		 echo -e "12 $_RED[KO] $_DEF"
 	 fi ;
+	 sleep .5
 	 RES=$(cat 13)
 	 echo -e "13 : $RES"
+	 sleep .5
 	 RES=$(cat 14)
 	 echo -e "14 : $RES"
+	 sleep .5
 	  RES=$(cat 15)
 	 echo -e "15 : $RES"
 	 ;;
@@ -281,8 +311,12 @@ do
 		echo -e "------------01-------------"
 		cat 01
 
+
 		echo -e "------------02-------------"
-		cat 02	
+		cat 02
+
+		echo -e "------------01-------------"
+		cat 03
 		;;
 	0) break
 		;;
@@ -290,11 +324,3 @@ do
  read -p "Press Enter to continue..." END
 done
 clear
-
-echo -e "test partie 1"
-
-
-
-echo -e "test partie 2"
-
-echo -e "test partie 3"
