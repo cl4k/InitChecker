@@ -1,3 +1,4 @@
+#!/bin/bash
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -6,11 +7,10 @@
 #    By: lramard <lramard@student.42.fr             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/16 15:34:24 by lramard           #+#    #+#              #
-#    Updated: 2018/12/16 16:10:08 by lramard          ###   ########.fr        #
+#    Updated: 2018/12/16 16:28:40 by lroux            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#!/bin/bash
 # Text format
 _DEF='\033[0m'
 _GRAS='\033[1m'
@@ -38,387 +38,436 @@ _IPURPLE='\033[45m'
 _ICYAN='\033[46m'
 _IGREY='\033[47m'
 
-echo -en "$_PURPLE"
+# Start PWD
+SPWD=$(pwd)
 
-echo -e "    _____   ____________   ________  ________________ __ __________  "
-echo -e "   /  _/ | / /  _/_  __/  / ____/ / / / ____/ ____/ //_// ____/ __ \\  "
-echo -e "   / //  |/ // /  / /    / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /  "
-echo -e " _/ // /|  // /  / /    / /___/ __  / /___/ /___/ /| |/ /___/ _, _/   "
-echo -e "/___/_/ |_/___/ /_/     \____/_/ /_/_____/\____/_/ |_/_____/_/ |_|    "
-echo -e "$_DEF"
+function header()
+{
+	clear
+	echo -e "$_PURPLE"
+	echo "    _____   ____________   ________  ________________ __ __________  "
+	echo "   /  _/ | / /  _/_  __/  / ____/ / / / ____/ ____/ //_// ____/ __ \\  "
+	echo "   / //  |/ // /  / /    / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /  "
+	echo " _/ // /|  // /  / /    / /___/ __  / /___/ /___/ /| |/ /___/ _, _/   "
+	echo "/___/_/ |_/___/ /_/     \____/_/ /_/_____/\____/_/ |_/_____/_/ |_|    "
+	echo -e "$_DEF"
+}
 
-read -p $'\e[35mPath Init (use ./) :\e[0m ' PATHE
-cd ~/$PATHE
-clear
-while :
-do
- clear
- echo -en "$_PURPLE"
-
-echo -e "    _____   ____________   ________  ________________ __ __________  "
-echo -e "   /  _/ | / /  _/_  __/  / ____/ / / / ____/ ____/ //_// ____/ __ \\  "
-echo -e "   / //  |/ // /  / /    / /   / /_/ / __/ / /   / ,<  / __/ / /_/ /  "
-echo -e " _/ // /|  // /  / /    / /___/ __  / /___/ /___/ /| |/ /___/ _, _/   "
-echo -e "/___/_/ |_/___/ /_/     \____/_/ /_/_____/\____/_/ |_/_____/_/ |_|    "
-echo -e "$_DEF"
-echo -en "$_PURPLE"
-echo -e "		PRESS 	(1)           Network              "
-echo -e "		PRESS 	(2)           System               "
-echo -e "		PRESS 	(3)           Scripts              "
-echo -e "		PRESS 	(0)           Exit                 "
-echo -e "$_DEF"
-
-  read INPUT 
- case $INPUT in
-  1) 
-	  cd ~
-	  cd $PATHE
-	  cd network/
-	 RES=$(sh 01)
-	 RRES=$(ifconfig -l)
-	 if [ "$RES" == "$RRES" ]; then
-		 echo -e "01 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "01 $_RED[KO] $_DEF"
-		 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	 fi ;
-	 sleep .5
-	 RES1=$(cat 02 | head -n 1)
-	 RES=$(cat 02 | tail -n 1)
-	 echo -e "02 a) : $RES1"
-	 echo -e "02 b) : $RES"
-	 sleep .5
-	 RES=$(sh 03)
-	 RRES=$(ifconfig -a | grep 'en1' -C 1 | grep 'ether' | awk '{print $2}')
-	 if [ "$RES" == "$RRES" ]; then
-		 echo -e "03 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "03 $_RED[KO] $_DEF"
-		 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	 fi ;
-	 sleep .5
-	 RES=$(sh 04)
-	 RRES=$(route -n get default | grep 'gateway' | awk '{print$2}')
-	 if [ "$RES" == "$RRES" ]; then
-		 echo -e "04 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "04 $_RED[KO] $_DEF"
-	 	 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	fi ;
-	 sleep .5
-	 RES=$(sh 05)
-	 RRES=$(nslookup slash16.org | grep 'Server' | awk '{print$2}')
-	 if [ "$RES" == "$RRES" ]; then
-		 echo -e "05 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "05 $_RED[KO] $_DEF"
-		 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	 fi ;
-	 sleep .5
-	 RES=$(cat 06)
-	 echo -e "06 : $RES"
-	 sleep .5
-	 RES=$(cat 07)
-	 if [ "$RES" == "nslookup slash16.org 8.8.8.8" ]; then
-		 echo -e "07 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "07 $_RED[KO] $_DEF"
-		 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	 fi ;
-	 sleep .5
-	 echo -en "08 "
-	 grep "Amazon" 08
-	 if [ $? ==  0 ]; then
-		 echo -e "08 $_GREEN[OK] $_DEF"
-	 else
-		grep "aws" 08
-	 	if [ $? ==  0 ]; then
-			 echo -e "08 $_GREEN[OK] $_DEF"
-		 else	
-		 	echo -e "08 $_RED[KO] $_DEF"
-			echo -en "you have wrote this :  "
-		    echo -e " $RES "
-	fi ;
-	 fi ;	 
-	 
-	 sleep .5
-	 RES=$(cat 09)
-	 if [ "$RES" ==  "163.172.250.12" ] || [ "$RES" == "163.172.250.13" ] || [ "$RES" == "163.172.250.11" ] || [ "$RES"  == "10.52.1.76" ] || [ "$RES" == "10.52.1.12" ] || [ "$RES "== "10.52.1.11" ] ; then
-		 echo -e "09 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "09 $_RED[KO] $_DEF"
-	 	 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	fi ;
-	 sleep .5
-	 RES=$(cat 11)
-	 echo -e "11 : $RES"
-	 sleep .5
-	 RES=$(sh 12)
-	 RRES=$(ipconfig getpacket en0 | grep yi | awk '{print $3}')
-	 if [ "$RES" == "$RRES" ]; then
-		 echo -e "12 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "12 $_RED[KO] $_DEF"
-	 		 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	fi ;
-	 sleep .5
-	 #question 13
-	 RES=$(cat 13)
-	 echo -e "13 : $RES"
-	 sleep .5
-	 #question 14
-	 RES=$(cat 14)
-	 echo -e "14 : $RES"
-	 sleep .5
-	 #question 15
-	 RES=$(cat 15)
-	 echo -e "15 : $RES"
-	 ;;
-  2)
-	 cd ~
-	 cd $PATHE
-	 cd system/
-	 RES=$(cat 01)
-	 if [ "$RES" == "/etc/debian_version" ]; then
-		 echo -e "01 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "01 $_RED[KO] $_DEF"
-	fi ;
-	sleep 0.5
-	 cat 02 | grep "hostname" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "02 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "02 $_RED[KO] $_DEF"
-	fi ;
-		sleep 0.5
-	 RES=$(cat 03)
-	 echo -e "03 $RES"
-	 	sleep 0.5
-	 cat 04 | grep "uptime" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "04 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "04 $_RED[KO] $_DEF"
-	 	 echo -en "you have wrote this :  "
-		 echo -e " $RES "
-	fi ;
-		sleep 0.5
-	 cat 05 | grep "/etc/init.d/ssh" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "05 $_GREEN[OK] $_DEF"
-	 else
-	 	cat 05 | grep "service ssh status" > /dev/null
-	 	if [ $? ==  0 ]; then
-		 echo -e "05 $_GREEN[OK] $_DEF"
-		else	
-		  echo -e "05 $_RED[KO] $_DEF"
-		fi ;
-	 fi ;
-	 	sleep 0.5
-	 cat 06 | grep "/etc/init.d/ssh" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "06 $_GREEN[OK] $_DEF"
-	 else
-	 	cat 06 | grep "service ssh restart" > /dev/null
-	 	if [ $? ==  0 ]; then
-		 echo -e "06 $_GREEN[OK] $_DEF"
-		else	
-		  echo -e "06 $_RED[KO] $_DEF"
-	fi ;
-	 fi ;
-		sleep 0.5
-	 RES=$(cat 07)
-	 echo -e "07 : $RES"
+function networkpart()
+{
+	cd "$PATHE/network/"
+	#question 1
+	RES=$(sh 01)
+	RRES=$(ifconfig -l)
+	if [ "$RES" == "$RRES" ]; then
+		echo -e "01 $_GREEN[OK] $_DEF"
+	else
+		echo -e "01 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep .5
+	#question 2
+	RES1=$(cat 02 | head -n 1)
+	RES=$(cat 02 | tail -n 1)
+	echo -e "02 a) : $RES1"
+	echo -e "02 b) : $RES"
+	sleep .5
+	#question 3
+	RES=$(sh 03)
+	RRES=$(ifconfig -a | grep 'en1' -C 1 | grep 'ether' | awk '{print $2}')
+	if [ "$RES" == "$RRES" ]; then
+		echo -e "03 $_GREEN[OK] $_DEF"
+	else
+		echo -e "03 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep .5
+	#question 4
+	RES=$(sh 04)
+	RRES=$(route -n get default | grep 'gateway' | awk '{print$2}')
+	if [ "$RES" == "$RRES" ]; then
+		echo -e "04 $_GREEN[OK] $_DEF"
+	else
+		echo -e "04 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep .5
+	#question 5
+	RES=$(sh 05)
+	RRES=$(nslookup slash16.org | grep 'Server' | awk '{print$2}')
+	if [ "$RES" == "$RRES" ]; then
+		echo -e "05 $_GREEN[OK] $_DEF"
+	else
+		echo -e "05 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep .5
+	#question 6
+	RES=$(cat 06)
+	echo -e "06 : $RES"
+	sleep .5
+	#question 7
+	RES=$(cat 07)
+	if [ "$RES" == "nslookup slash16.org 8.8.8.8" ]; then
+		echo -e "07 $_GREEN[OK] $_DEF"
+	else
+		echo -e "07 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep .5
 	#question 8
-	 cat 08 | grep ".ssh" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "08 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "08 $_RED[KO] $_DEF"
-	 fi ;
-	 	sleep 0.5
+	echo -en "08 "
+	grep "Amazon" 08
+	if [ $? ==  0 ]; then
+		echo -e "08 $_GREEN[OK] $_DEF"
+	else
+		grep "aws" 08
+		if [ $? ==  0 ]; then
+			echo -e "08 $_GREEN[OK] $_DEF"
+		else	
+			echo -e "08 $_RED[KO] $_DEF"
+			echo -en "you have wrote this :  "
+			echo -e " $RES"
+		fi
+	fi
+	sleep .5
+	#question 9
+	RES=$(cat 09)
+	if [ "$RES" ==  "163.172.250.12" ] \
+	|| [ "$RES" == "163.172.250.13" ]  \
+	|| [ "$RES" == "163.172.250.11" ]  \
+	|| [ "$RES"  == "10.52.1.76" ]     \
+	|| [ "$RES" == "10.52.1.12" ]      \
+	|| [ "$RES" == "10.52.1.11" ]; then
+		echo -e "09 $_GREEN[OK] $_DEF"
+	else
+		echo -e "09 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep .5
+	#question 11
+	RES=$(cat 11)
+	echo -e "11 : $RES"
+	sleep .5
+	#question 12
+	RES=$(sh 12)
+	RRES=$(ipconfig getpacket en0 | grep yi | awk '{print $3}')
+	if [ "$RES" == "$RRES" ]; then
+		echo -e "12 $_GREEN[OK] $_DEF"
+	else
+		echo -e "12 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep .5
+	#question 13
+	RES=$(cat 13)
+	echo -e "13 : $RES"
+	sleep .5
+	#question 14
+	RES=$(cat 14)
+	echo -e "14 : $RES"
+	sleep .5
+	#question 15
+	RES=$(cat 15)
+	echo -e "15 : $RES"
+}
+
+function systempart()
+{
+	cd "$PATHE/system/"
+	#question 1
+	cat 01 | grep "/etc/debian_version" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "01 $_GREEN[OK] $_DEF"
+	else
+		echo -e "01 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
+	#question 2
+	cat 02 | grep "hostname" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "02 $_GREEN[OK] $_DEF"
+	else
+		echo -e "02 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
+	#question 3
+	RES=$(cat 03)
+	echo -e "03 $RES"
+	sleep 0.5
+	#question 4
+	cat 04 | grep "uptime" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "04 $_GREEN[OK] $_DEF"
+	else
+		echo -e "04 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		echo -e " $RES"
+	fi
+	sleep 0.5
+	#question 5
+	cat 05 | grep "/etc/init.d/ssh" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "05 $_GREEN[OK] $_DEF"
+	else
+		cat 05 | grep "service ssh status" > /dev/null
+		if [ $? ==  0 ]; then
+			echo -e "05 $_GREEN[OK] $_DEF"
+		else
+			echo -e "05 $_RED[KO] $_DEF"
+		fi
+	fi
+	sleep 0.5
+	#question 6
+	cat 06 | grep "/etc/init.d/ssh" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "06 $_GREEN[OK] $_DEF"
+	else
+		cat 06 | grep "service ssh restart" > /dev/null
+		if [ $? ==  0 ]; then
+		echo -e "06 $_GREEN[OK] $_DEF"
+		else	
+		 echo -e "06 $_RED[KO] $_DEF"
+	fi
+	fi
+	sleep 0.5
+	#question 7
+	RES=$(cat 07)
+	echo -e "07 : $RES"
+	#question 8
+	cat 08 | grep ".ssh" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "08 $_GREEN[OK] $_DEF"
+	else
+		echo -e "08 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#questin 9
-	 RES=$(cat 09)
-	 if [ "$RES" ==  "w" ] || [ "$RES" == "who"]; then
-		 echo -e "09 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "09 $_RED[KO] $_DEF"
-	 fi;
-	 	sleep 0.5
+	RES=$(cat 09)
+	if [ "$RES" ==  "w" ] || [ "$RES" == "who" ]; then
+		echo -e "09 $_GREEN[OK] $_DEF"
+	else
+		echo -e "09 $_RED[KO] $_DEF"
+	fi;
+	sleep 0.5
 	#question 10
 	RES=$(cat 10)
-	 if [ "$RES" ==  "fdisk -l" ] ; then
-		 echo -e "10 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "10 $_RED[KO] $_DEF"
-	 fi;
-	 	sleep 0.5
+	if [ "$RES" ==  "fdisk -l" ] ; then
+		echo -e "10 $_GREEN[OK] $_DEF"
+	else
+		echo -e "10 $_RED[KO] $_DEF"
+	fi;
+	sleep 0.5
 	#question 11
-	 cat 11 | grep "df -h" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "11 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "11 $_RED[KO] $_DEF"
-	fi ;
-		sleep 0.5
+	cat 11 | grep "df -h" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "11 $_GREEN[OK] $_DEF"
+	else
+		echo -e "11 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 12
-	 cat 12 | grep "du -sh /var/*" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "12 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "12 $_RED[KO] $_DEF"
-	fi ;
-		sleep 0.5
+	cat 12 | grep "du -sh /var/*" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "12 $_GREEN[OK] $_DEF"
+	else
+		echo -e "12 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 13
-	 cat 13 | grep "ps -aux" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "13 $_GREEN[OK] $_DEF"
-	 else
-	 	cat 13 | grep "top"
-	 	if [ $? ==  0 ]; then
-		 echo -e "13 $_GREEN[OK] $_DEF"
+	cat 13 | grep "ps -aux" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "13 $_GREEN[OK] $_DEF"
+	else
+		cat 13 | grep "top"
+		if [ $? ==  0 ]; then
+		echo -e "13 $_GREEN[OK] $_DEF"
 		else	
-		  echo -e "13 $_RED[KO] $_DEF"
-	fi ;
-	 fi ;
-		sleep 0.5
+		 echo -e "13 $_RED[KO] $_DEF"
+	fi
+	fi
+	sleep 0.5
 	#question 14
-	 cat 14 | grep "tail -f /var/log/syslog &" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "14 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "14 $_RED[KO] $_DEF"
-	fi ;
-		sleep 0.5
+	cat 14 | grep "tail -f /var/log/syslog &" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "14 $_GREEN[OK] $_DEF"
+	else
+		echo -e "14 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 15
-	 cat 15 | grep "kill" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "15 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "15 $_RED[KO] $_DEF"
-	 fi ;
-		sleep 0.5
+	cat 15 | grep "kill" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "15 $_GREEN[OK] $_DEF"
+	else
+		echo -e "15 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 16
-	 cat 16 | grep "cron" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "16 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "16 $_RED[KO] $_DEF"
-	 fi ;
-		sleep 0.5
+	cat 16 | grep "cron" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "16 $_GREEN[OK] $_DEF"
+	else
+		echo -e "16 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 17
-	 cat 17 | grep "ssh" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -en "17 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "17 $_RED[KO] $_DEF"
-	fi ;
-		sleep 0.5
+	cat 17 | grep "ssh" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "17 $_GREEN[OK] $_DEF"
+	else
+		echo -e "17 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 18
-	 cat 18 | grep "service ssh stop" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "18 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "18 $_RED[KO] $_DEF"
-	fi ;
+	cat 18 | grep "service ssh stop" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "18 $_GREEN[OK] $_DEF"
+	else
+		echo -e "18 $_RED[KO] $_DEF"
+	fi
 	sleep 0.5
 	#question 19
 	cat 19 | grep "cron" > /dev/null
 	if [ $? ==  0 ]; then
-		 echo -e "19 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "19 $_RED[KO] $_DEF"
-	fi ;
+		echo -e "19 $_GREEN[OK] $_DEF"
+	else
+		echo -e "19 $_RED[KO] $_DEF"
+	fi
 	sleep 0.5
 	#question 20
-	 RES=$(sh 20) > /dev/null
-	 RRES=$(cat /etc/passwd | awk -F: '{print$1}') > /dev/null
-	 if [ "$RES" == "$RRES" ]; then
-		 echo -e "20 $_GREEN[OK] $_DEF"
-	  else
-		 echo -e "20 $_RED[KO] $_DEF"
-	 fi ;
-		sleep 0.5
-	#question 21
-	 cat 21 | grep "cat /etc/passwd" > /dev/null
-		 if [ $? ==  0 ]; then
-		 echo -e "21 $_GREEN[OK] $_DEF"
+	RES=$(sh 20) > /dev/null
+	RRES=$(cat /etc/passwd | awk -F: '{print$1}') > /dev/null
+	if [ "$RES" == "$RRES" ]; then
+		echo -e "20 $_GREEN[OK] $_DEF"
 	 else
-		 echo -e "21 $_RED[KO] $_DEF"
-	 fi ;
-		sleep 0.5
+		echo -e "20 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
+	#question 21
+	cat 21 | grep "cat /etc/passwd" > /dev/null
+		if [ $? ==  0 ]; then
+		echo -e "21 $_GREEN[OK] $_DEF"
+	else
+		echo -e "21 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 22
-	 cat 22 | grep "adduser" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "22 $_GREEN[OK] $_DEF"
-	  else
-		 echo -e "22 $_RED[KO] $_DEF"
-	 fi ;
-		sleep 0.5
+	cat 22 | grep "adduser" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "22 $_GREEN[OK] $_DEF"
+	 else
+		echo -e "22 $_RED[KO] $_DEF"
+	fi
+	sleep 0.5
 	#question 23
 	#ES=$(cat 23) > /dev/null
-	 #echo -e "23 : $RES"
+	#echo -e "23 : $RES"
 	#	sleep 0.5
 	#question 24
-	 echo -en "24 "
-	 cat 24 | grep "dpkg" > /dev/null
-	 if [ $? ==  0 ]; then
-		 echo -e "24 $_GREEN[OK] $_DEF"
-	 else
-		 echo -e "24 $_RED[KO] $_DEF"
-	 fi ;
-		
-		 ;; 
-	3)
-		cd ~
-		cd $PATHE
-		cd scripts/
-		echo -e "------------01-------------"
-		sh 01
-		echo -e "wait 10 sec"
-		sleep 1
-		echo -e "wait 9 sec"
-		sleep 1
-		echo -e "wait 8 sec"
-		sleep 1
-		echo -e "wait 7 sec"
-		sleep 1
-		echo -e "wait 6 sec"
-		sleep 1
-		echo -e "wait 5 sec"
-		sleep 1
-		echo -e "wait 4 sec"
-		sleep 1
-		echo -e "wait 3 sec"
-		sleep 1
-		echo -e "wait 2 sec"
-		sleep 1
-		echo -e "wait 1 sec"
-		sleep 1
-		echo -e "wait 0 sec"
-		clear
-		echo -e "------------01-------------"
-		cat 01
+	cat 24 | grep "dpkg" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "24 $_GREEN[OK] $_DEF"
+	else
+		echo -e "24 $_RED[KO] $_DEF"
+	fi
+}
 
-		echo -e "------------02-------------"
-		cat 02
-		
-		sleep 10
+function scriptpart()
+{
+	cd "$PATHE/scripts/"
+	echo -e "--------01 output----------"
+	sh 01
+	echo -ne "\n"
+	i=10
+	for i in {10..0}
+	do
+		echo -ne "\rWaiting ${i}s..                                            "
+		sleep .8
+	done
+	echo -e "\r--------01 content---------"
+	cat 01
+	echo -e "\n--------02 content-------------"
+	cat 02
+	#sleep 10
+	echo -e "\n--------03 (custom)--------"
+	cat 03
+}
 
-		echo -e "------------03-------------"
-		cat 03
+function creditspart()
+{
+	echo -e "$_PURPLE"
+	echo  "------------Credits--------------"
+	echo  ""
+	echo  ""
+	echo  "Special thanks to :"
+	echo  ""
+	echo  "@judumay"
+	echo  "@lroux"
+	echo  ""
+	echo "          ___   ____"
+	echo "   	     /' --;^/ ,-_\     \ | /"
+	echo "   	    / / --o\ o-\ \\   --(_)--"
+	echo "    	  /-/-/|o|-|\-\\|\\   / | \\"
+	echo "     	  '`  ` |-|   `` '"
+	echo "             |-|"
+	echo "             |-|O"
+	echo "             |-(\,__"
+	echo "          ...|-|\--,\_...."
+	echo "      ,;;;;;;;;;;;;;;;;;;;;;;;;,."
+	echo "~~,;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+	echo "~;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,  ______   ---------   _____     ------"
+	echo -e "$_DEF"
+}
+
+while :
+do
+	header
+	read -p $'\e[35mPath Init (from current directory) :\e[0m ' PATHE
+	if [ -d "$PATHE" ]; then
+		break;
+	fi
+done
+
+clear
+while :
+do
+	cd $SPWD
+
+	header
+	echo -e "$_PURPLE"
+	echo "		PRESS	(1)             Network              "
+	echo "		PRESS	(2)             System               "
+	echo "		PRESS	(3)             Scripts              "
+	echo "		PRESS	(c)             Credits				 "
+	echo "		PRESS	(0/q)           Exit                 "
+	echo -e "$_DEF"
+
+	read -p $'\e[35mYour choice:\e[0m ' -n 1 INPUT
+	header
+	case $INPUT in
+		1)
+			networkpart
 		;;
-	0) break
+		2)
+			systempart
 		;;
- esac
- read -p $'\e[35mPress Enter to continue...\e[0m' END
+		3)
+			scriptpart
+		;;
+		c)
+			creditspart
+		;;
+		q) break ;;
+		0) break ;;
+	esac
+	read -p $'\e[35mPress Enter to continue...\e[0m' END
 done
 clear
