@@ -146,15 +146,23 @@ function networkpart()
 	fi
 	sleep .5
 	#question 9
-	RES=$(cat 09)
-	if [ "$RES" ==  "163.172.250.12" ] \
-	|| [ "$RES" == "163.172.250.13" ]  \
-	|| [ "$RES" == "163.172.250.11" ]; then
+	grep "163.172.250.12" 09 > /dev/null
+	if [ $? ==  0 ]; then
 		echo -e "09 $_GREEN[OK] $_DEF"
 	else
-		echo -e "09 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
-		echo -e " $RES"
+		grep "163.172.250.13" 09 > /dev/null
+		if [ $? ==  0 ]; then
+			echo -e "08 $_GREEN[OK] $_DEF"
+		else	
+			grep "163.172.250.11" 09 > /dev/null
+			if [ $? ==  0 ]; then
+				echo -e "09 $_GREEN[OK] $_DEF"
+			else	
+				echo -e "09 $_RED[KO] $_DEF"
+				echo -en "you have wrote this :  "
+				echo -e " $RES"
+			fi
+		fi
 	fi
 	sleep .5
 	#question 10
