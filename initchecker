@@ -111,26 +111,30 @@ function networkpart()
 	echo -e "06 : $RES"
 	sleep .5
 	#question 7
-	RES=$(cat 07)
-	if [ "$RES" == "nslookup slash16.org 8.8.8.8" ]; then
+	grep "nslookup slash16.org 8.8.8.8" 07 > /dev/null
+	if [ $? ==  0 ]; then
 		echo -e "07 $_GREEN[OK] $_DEF"
 	else
-		echo -e "07 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
-		echo -e " $RES"
-	fi
+		grep "dig @8.8.8.8 slash16.org" 07 > /dev/null
+		if [ $? ==  0 ]; then
+			echo -e "07 $_GREEN[OK] $_DEF"
+		else	
+			echo -e "07 $_RED[KO] $_DEF"
+			echo -en "you have wrote this :  "
+			echo -e " $RES"
+		fi
+	fi;
 	sleep .5
 	#question 8
-	echo -en "08 "
-	grep "Amazon" 08
+	grep "Amazon" 08 > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "08 $_GREEN[OK] $_DEF"
 	else
-		grep "aws" 08
+		grep "aws" 08 > /dev/null
 		if [ $? ==  0 ]; then
 			echo -e "08 $_GREEN[OK] $_DEF"
 		else	
-			grep "AWS" 08
+			grep "AWS" 08 > /dev/null
 			if [ $? ==  0 ]; then
 				echo -e "08 $_GREEN[OK] $_DEF"
 			else	
