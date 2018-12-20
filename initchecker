@@ -7,7 +7,7 @@
 #    By: lramard <lramard@student.42.fr             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/16 15:34:24 by lramard           #+#    #+#              #
-#    Updated: 2018/12/16 16:28:40 by lroux            ###   ########.fr        #
+#    Updated: 2018/12/16 16:28:40 by lramard          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,9 +130,14 @@ function networkpart()
 		if [ $? ==  0 ]; then
 			echo -e "08 $_GREEN[OK] $_DEF"
 		else	
-			echo -e "08 $_RED[KO] $_DEF"
-			echo -en "you have wrote this :  "
-			echo -e " $RES"
+			grep "AWS" 08
+			if [ $? ==  0 ]; then
+				echo -e "08 $_GREEN[OK] $_DEF"
+			else	
+				echo -e "08 $_RED[KO] $_DEF"
+				echo -en "you have wrote this :  "
+				echo -e " $RES"
+			fi
 		fi
 	fi
 	sleep .5
@@ -140,10 +145,7 @@ function networkpart()
 	RES=$(cat 09)
 	if [ "$RES" ==  "163.172.250.12" ] \
 	|| [ "$RES" == "163.172.250.13" ]  \
-	|| [ "$RES" == "163.172.250.11" ]  \
-	|| [ "$RES"  == "10.52.1.76" ]     \
-	|| [ "$RES" == "10.52.1.12" ]      \
-	|| [ "$RES" == "10.52.1.11" ]; then
+	|| [ "$RES" == "163.172.250.11" ]; then
 		echo -e "09 $_GREEN[OK] $_DEF"
 	else
 		echo -e "09 $_RED[KO] $_DEF"
@@ -151,9 +153,17 @@ function networkpart()
 		echo -e " $RES"
 	fi
 	sleep .5
+	#question 10
+
 	#question 11
-	RES=$(cat 11)
-	echo -e "11 : $RES"
+	cat 11 | grep "nat" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "11 $_GREEN[OK] $_DEF"
+	else
+		echo -e "11 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		cat 11
+	fi
 	sleep .5
 	#question 12
 	RES=$(sh 12)
@@ -171,8 +181,14 @@ function networkpart()
 	echo -e "13 : $RES"
 	sleep .5
 	#question 14
-	RES=$(cat 14)
-	echo -e "14 : $RES"
+	cat 14 | grep "/etc/hosts" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "14 $_GREEN[OK] $_DEF"
+	else
+		echo -e "14 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		cat 14
+	fi
 	sleep .5
 	#question 15
 	RES=$(cat 15)
@@ -200,7 +216,7 @@ function systempart()
 	sleep 0.5
 	#question 3
 	RES=$(cat 03)
-	echo -e "03 $RES"
+	echo -e "03 : $RES"
 	sleep 0.5
 	#question 4
 	cat 04 | grep "uptime" > /dev/null
@@ -288,10 +304,10 @@ function systempart()
 	else
 		cat 13 | grep "top"
 		if [ $? ==  0 ]; then
-		echo -e "13 $_GREEN[OK] $_DEF"
+			echo -e "13 $_GREEN[OK] $_DEF"
 		else	
-		 echo -e "13 $_RED[KO] $_DEF"
-	fi
+			 echo -e "13 $_RED[KO] $_DEF"
+		fi
 	fi
 	sleep 0.5
 	#question 14
@@ -335,7 +351,7 @@ function systempart()
 	fi
 	sleep 0.5
 	#question 19
-	cat 19 | grep "cron" > /dev/null
+	cat 19 | grep "daemon" > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "19 $_GREEN[OK] $_DEF"
 	else
@@ -353,7 +369,7 @@ function systempart()
 	sleep 0.5
 	#question 21
 	cat 21 | grep "cat /etc/passwd" > /dev/null
-		if [ $? ==  0 ]; then
+	if [ $? ==  0 ]; then
 		echo -e "21 $_GREEN[OK] $_DEF"
 	else
 		echo -e "21 $_RED[KO] $_DEF"
@@ -368,9 +384,9 @@ function systempart()
 	fi
 	sleep 0.5
 	#question 23
-	#ES=$(cat 23) > /dev/null
-	#echo -e "23 : $RES"
-	#	sleep 0.5
+	ES=$(cat 23) > /dev/null
+	echo -e "23 : $ES"
+		sleep 0.5
 	#question 24
 	cat 24 | grep "dpkg" > /dev/null
 	if [ $? ==  0 ]; then
@@ -430,7 +446,7 @@ function creditspart()
 while :
 do
 	header
-	read -p $'\e[35mPath Init (from current directory) :\e[0m ' PATHE
+	read -p $'\e[35mPath Init (from current directory) :\e[0m ' -e PATHE
 	if [ -d "$PATHE" ]; then
 		break;
 	fi
