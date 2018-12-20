@@ -63,7 +63,7 @@ function networkpart()
 		echo -e "01 $_GREEN[OK] $_DEF"
 	else
 		echo -e "01 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		echo -e " $RES"
 	fi
 	sleep .5
@@ -80,7 +80,7 @@ function networkpart()
 		echo -e "03 $_GREEN[OK] $_DEF"
 	else
 		echo -e "03 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		echo -e " $RES"
 	fi
 	sleep .5
@@ -91,7 +91,7 @@ function networkpart()
 		echo -e "04 $_GREEN[OK] $_DEF"
 	else
 		echo -e "04 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		echo -e " $RES"
 	fi
 	sleep .5
@@ -102,7 +102,7 @@ function networkpart()
 		echo -e "05 $_GREEN[OK] $_DEF"
 	else
 		echo -e "05 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		echo -e " $RES"
 	fi
 	sleep .5
@@ -120,7 +120,7 @@ function networkpart()
 			echo -e "07 $_GREEN[OK] $_DEF"
 		else	
 			echo -e "07 $_RED[KO] $_DEF"
-			echo -en "you have wrote this :  "
+			echo -en "you wrote this :  "
 			echo -e " $RES"
 		fi
 	fi;
@@ -139,7 +139,7 @@ function networkpart()
 				echo -e "08 $_GREEN[OK] $_DEF"
 			else	
 				echo -e "08 $_RED[KO] $_DEF"
-				echo -en "you have wrote this :  "
+				echo -en "you wrote this :  "
 				echo -e " $RES"
 			fi
 		fi
@@ -159,7 +159,7 @@ function networkpart()
 				echo -e "09 $_GREEN[OK] $_DEF"
 			else	
 				echo -e "09 $_RED[KO] $_DEF"
-				echo -en "you have wrote this :  "
+				echo -en "you wrote this :  "
 				echo -e " $RES"
 			fi
 		fi
@@ -171,7 +171,7 @@ function networkpart()
 		echo -e "10 $_GREEN[OK] $_DEF"
 	else
 		echo -e "10 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		cat 10
 	fi
 	#question 11
@@ -180,7 +180,7 @@ function networkpart()
 		echo -e "11 $_GREEN[OK] $_DEF"
 	else
 		echo -e "11 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		cat 11
 	fi
 	sleep .5
@@ -191,7 +191,7 @@ function networkpart()
 		echo -e "12 $_GREEN[OK] $_DEF"
 	else
 		echo -e "12 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		echo -e " $RES"
 	fi
 	sleep .5
@@ -205,7 +205,7 @@ function networkpart()
 		echo -e "14 $_GREEN[OK] $_DEF"
 	else
 		echo -e "14 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		cat 14
 	fi
 	sleep .5
@@ -243,7 +243,7 @@ function systempart()
 		echo -e "04 $_GREEN[OK] $_DEF"
 	else
 		echo -e "04 $_RED[KO] $_DEF"
-		echo -en "you have wrote this :  "
+		echo -en "you wrote this :  "
 		echo -e " $RES"
 	fi
 	sleep 0.5
@@ -313,8 +313,8 @@ function systempart()
 	fi;
 	sleep 0.5
 	#question 10
-	RES=$(cat 10)
-	if [ "$RES" ==  "fdisk -l" ] ; then
+	cat 10 | grep "fdisk -l" > /dev/null
+	if [ $? ==  0 ] ; then
 		echo -e "10 $_GREEN[OK] $_DEF"
 	else
 		echo -e "10 $_RED[KO] $_DEF"
