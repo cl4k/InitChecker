@@ -154,7 +154,14 @@ function networkpart()
 	fi
 	sleep .5
 	#question 10
-
+	cat 10 | grep "traceroute slash16.org" > /dev/null
+	if [ $? ==  0 ]; then
+		echo -e "10 $_GREEN[OK] $_DEF"
+	else
+		echo -e "10 $_RED[KO] $_DEF"
+		echo -en "you have wrote this :  "
+		cat 10
+	fi
 	#question 11
 	cat 11 | grep "nat" > /dev/null
 	if [ $? ==  0 ]; then
