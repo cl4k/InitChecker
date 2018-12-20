@@ -237,7 +237,12 @@ function systempart()
 		if [ $? ==  0 ]; then
 			echo -e "05 $_GREEN[OK] $_DEF"
 		else
-			echo -e "05 $_RED[KO] $_DEF"
+			cat 05 | grep "service sshd status" > /dev/null
+			if [ $? ==  0 ]; then
+				echo -e "05 $_GREEN[OK] $_DEF"
+			else
+				echo -e "05 $_RED[KO] $_DEF"
+			fi
 		fi
 	fi
 	sleep 0.5
@@ -248,10 +253,15 @@ function systempart()
 	else
 		cat 06 | grep "service ssh restart" > /dev/null
 		if [ $? ==  0 ]; then
-		echo -e "06 $_GREEN[OK] $_DEF"
+			echo -e "06 $_GREEN[OK] $_DEF"
 		else	
-		 echo -e "06 $_RED[KO] $_DEF"
-	fi
+			cat 06 | grep "service sshd restart" > /dev/null
+			if [ $? ==  0 ]; then
+				echo -e "06 $_GREEN[OK] $_DEF"
+			else
+				echo -e "06 $_RED[KO] $_DEF"
+			fi
+		fi
 	fi
 	sleep 0.5
 	#question 7
@@ -274,7 +284,12 @@ function systempart()
 		if [ $? == 0 ]; then
 			echo -e "09 $_GREEN[OK] $_DEF"
 		else
-			echo -e "09 $_RED[KO] $_DEF"
+			cat 09 | grep "users" > /dev/null
+			if [ $? == 0 ]; then
+				echo -e "09 $_GREEN[OK] $_DEF"
+			else
+				echo -e "09 $_RED[KO] $_DEF"
+			fi
 		fi
 	fi;
 	sleep 0.5
@@ -377,8 +392,13 @@ function systempart()
 	if [ $? ==  0 ]; then
 		echo -e "21 $_GREEN[OK] $_DEF"
 	else
-		echo -e "21 $_RED[KO] $_DEF"
-	fi
+		cat 21 | grep "getent" > /dev/null
+		if [ $? ==  0 ]; then
+			echo -e "21 $_GREEN[OK] $_DEF"
+		else
+			echo -e "21 $_RED[KO] $_DEF"
+		fi
+	fi;
 	sleep 0.5
 	#question 22
 	cat 22 | grep "adduser" > /dev/null
