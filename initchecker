@@ -265,12 +265,17 @@ function systempart()
 		echo -e "08 $_RED[KO] $_DEF"
 	fi
 	sleep 0.5
-	#questin 9
-	RES=$(cat 09)
-	if [ "$RES" ==  "w" ] || [ "$RES" == "who" ]; then
+	#question 9
+	cat 09 | grep "w" > /dev/null
+	if [ $? ==  0 ]; then
 		echo -e "09 $_GREEN[OK] $_DEF"
 	else
-		echo -e "09 $_RED[KO] $_DEF"
+		cat 09 | grep "who" > /dev/null
+		if [ $? == 0 ]; then
+			echo -e "09 $_GREEN[OK] $_DEF"
+		else
+			echo -e "09 $_RED[KO] $_DEF"
+		fi
 	fi;
 	sleep 0.5
 	#question 10
@@ -290,7 +295,7 @@ function systempart()
 	fi
 	sleep 0.5
 	#question 12
-	cat 12 | grep "du -sh /var/*" > /dev/null
+	cat 12 | grep "du" > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "12 $_GREEN[OK] $_DEF"
 	else
