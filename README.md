@@ -1,6 +1,6 @@
 # InitChecker
 ## Checker pour le projet Init de l'ecole 42.
-![Alt text](/imgs/InitChecker.png?raw=true "InitChecker")
+![Alt text](http://image.noelshack.com/fichiers/2019/02/3/1547035706-screen-shot-2019-01-09-at-1-02-15-pm.png)
 
 Petit chercker pour le projet Init de 42.
 
