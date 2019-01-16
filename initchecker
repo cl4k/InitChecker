@@ -406,6 +406,7 @@ function systempart()
 		echo -e "20 $_RED[KO] $_DEF"
 	fi
 	sleep 0.5
+
 	#question 21
 	cat 21 | grep "cat /etc/passwd" > /dev/null
 	if [ $? ==  0 ]; then
@@ -415,16 +416,27 @@ function systempart()
 		if [ $? ==  0 ]; then
 			echo -e "21 $_GREEN[OK] $_DEF"
 		else
-			echo -e "21 $_RED[KO] $_DEF"
+			cat 21 | grep "ls /home" > /dev/null
+			if [ $? ==  0 ]; then
+				echo -e "21 $_GREEN[OK] $_DEF"
+			else
+				echo -e "21 $_RED[KO] $_DEF"
+			fi
 		fi
-	fi;
+	fi
 	sleep 0.5
+
 	#question 22
 	cat 22 | grep "adduser" > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "22 $_GREEN[OK] $_DEF"
-	 else
-		echo -e "22 $_RED[KO] $_DEF"
+	else
+		cat 22 | grep "useradd" > /dev/null
+		if [ $? ==  0 ]; then
+			echo -e "22 $_GREEN[OK] $_DEF"
+		else
+			echo -e "22 $_RED[KO] $_DEF"
+		fi
 	fi
 	sleep 0.5
 	#question 23
