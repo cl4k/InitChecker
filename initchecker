@@ -111,6 +111,7 @@ function networkpart()
 	echo -e "06 : $RES"
 	sleep .5
 	#question 7
+	RES=$(cat 07)
 	grep "nslookup slash16.org 8.8.8.8" 07 > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "07 $_GREEN[OK] $_DEF"
@@ -126,6 +127,7 @@ function networkpart()
 	fi;
 	sleep .5
 	#question 8
+	RES=$(cat 08)
 	grep "Amazon" 08 > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "08 $_GREEN[OK] $_DEF"
@@ -146,6 +148,7 @@ function networkpart()
 	fi
 	sleep .5
 	#question 9
+	RES=$(cat 09)
 	grep "163.172.250.12" 09 > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "09 $_GREEN[OK] $_DEF"
