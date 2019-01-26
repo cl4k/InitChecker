@@ -23,10 +23,10 @@ This option is used to activate some tests you should specify parts you want to 
 | script  | 3       | s      | `--scr` | `--script`  |
 | credits | 4       | c      | `--cre` | `--credits` |
 
-e.g.:	`bash initchecker --part 13`  
-		`bash initchecker --part ns`  
-		`bash initchecker --part network script`  
-		`bash initchecker --network --script`  
+e.g.:   `bash initchecker --part 13`  
+        `bash initchecker --part ns`  
+        `bash initchecker --part network script`  
+        `bash initchecker --network --script`  
 
 #### `--no-interactive`
 
