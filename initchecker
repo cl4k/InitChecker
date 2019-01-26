@@ -539,14 +539,32 @@ function creditspart()
 function help()
 {
 	PRG_NAME="basename $0"
-	echo "Help: $PRG_NAME"
+	echo "Help: $PRG_NAME [option]"
+	echo -e "--no-colors     \tdisable printing colored content"
+	echo -e "--no-interactive\tdisable interactive mode"
+	echo -e "--path dir      \tdir is the directory containing your project"
+	echo -e "--part          \tactivate parts to be tested (see the following section)"
+	echo -e "--help          \tprint this help"
+	echo
+	echo "PARTS:"
+	echo "parts can be parsed as number letter or full name"
+	echo "examples:"
+	echo "\"--parts 13\" will activate the network and the script parts"
+	echo "\"--parts no\" will activate the network and the system parts"
+	echo "\"--parts system credits\" will activate the system and the credits parts"
+	echo "\"--system --script\" will activate the system and the script parts"
+	echo
+	echo "1 n - Network"
+	echo "2 o - System"
+	echo "3 s - Script"
+	echo "4 c - Credits"
 	exit 0
 }
 
 function usage()
 {
 	PRG_NAME=basename "$0"
-	echo "Usage: $PRG_NAME"
+	echo "Usage: $PRG_NAME [option]"
 	exit 1
 }
 
@@ -728,5 +746,5 @@ done
 if [ $OPT_NO_INTERACTIVE -eq 1 ]; then
 	noninteractive
 else
-	noninteractive
+	interactive
 fi
