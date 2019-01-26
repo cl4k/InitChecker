@@ -24,10 +24,10 @@ This option is used to activate some tests you should specify parts you want to 
 | credits | 4       | c      | `--cre` | `--credits` |
 
 e.g.:  
-	* `bash initchecker --part 13`  
-	* `bash initchecker --part ns`  
-	* `bash initchecker --part network script`  
-	* `bash initchecker --network --script`  
+	`bash initchecker --part 13`  
+	`bash initchecker --part ns`  
+	`bash initchecker --part network script`  
+	`bash initchecker --network --script`  
 
 #### `--no-interactive`
 
