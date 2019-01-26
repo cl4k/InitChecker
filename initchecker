@@ -38,6 +38,36 @@ _IPURPLE='\033[45m'
 _ICYAN='\033[46m'
 _IGREY='\033[47m'
 
+function nocolors()
+{
+	# Text format
+	_DEF=''
+	_GRAS=''
+	_SOUL=''
+	_CLIG=''
+	_SURL=''
+
+	# Colors
+	_BLACK=''
+	_RED=''
+	_GREEN=''
+	_YELLOW=''
+	_BLUE=''
+	_PURPLE=''
+	_CYAN=''
+	_GREY=''
+
+	# Background
+	_IBLACK=''
+	_IRED=''
+	_IGREEN=''
+	_IYELLOW=''
+	_IBLUE=''
+	_IPURPLE=''
+	_ICYAN=''
+	_IGREY=''
+}
+
 # Start PWD
 SPWD=$(pwd)
 
@@ -119,7 +149,7 @@ function networkpart()
 		grep "dig @8.8.8.8 slash16.org" 07 > /dev/null
 		if [ $? ==  0 ]; then
 			echo -e "07 $_GREEN[OK] $_DEF"
-		else	
+		else
 			echo -e "07 $_RED[KO] $_DEF"
 			echo -en "you wrote this :  "
 			echo -e " $RES"
@@ -135,11 +165,11 @@ function networkpart()
 		grep "aws" 08 > /dev/null
 		if [ $? ==  0 ]; then
 			echo -e "08 $_GREEN[OK] $_DEF"
-		else	
+		else
 			grep "AWS" 08 > /dev/null
 			if [ $? ==  0 ]; then
 				echo -e "08 $_GREEN[OK] $_DEF"
-			else	
+			else
 				echo -e "08 $_RED[KO] $_DEF"
 				echo -en "you wrote this :  "
 				echo -e " $RES"
@@ -156,11 +186,11 @@ function networkpart()
 		grep "163.172.250.13" 09 > /dev/null
 		if [ $? ==  0 ]; then
 			echo -e "08 $_GREEN[OK] $_DEF"
-		else	
+		else
 			grep "163.172.250.11" 09 > /dev/null
 			if [ $? ==  0 ]; then
 				echo -e "09 $_GREEN[OK] $_DEF"
-			else	
+			else
 				echo -e "09 $_RED[KO] $_DEF"
 				echo -en "you wrote this :  "
 				echo -e " $RES"
@@ -276,7 +306,7 @@ function systempart()
 		cat 06 | grep "service ssh restart" > /dev/null
 		if [ $? ==  0 ]; then
 			echo -e "06 $_GREEN[OK] $_DEF"
-		else	
+		else
 			cat 06 | grep "service sshd restart" > /dev/null
 			if [ $? ==  0 ]; then
 				echo -e "06 $_GREEN[OK] $_DEF"
@@ -347,7 +377,7 @@ function systempart()
 		cat 13 | grep "top"
 		if [ $? ==  0 ]; then
 			echo -e "13 $_GREEN[OK] $_DEF"
-		else	
+		else
 			 echo -e "13 $_RED[KO] $_DEF"
 		fi
 	fi
@@ -495,7 +525,7 @@ function creditspart()
 	echo "        /' --;^/ ,-_\     \ | /"
 	echo "   	/ / --o\ o-\ \\   --(_)--"
 	echo "    	/-/-/|o|-|\-\\|\\   / | \\"
-	echo "     	   '`  ` |-|   `` '"
+	echo "     	   '\`  \` |-|   \`\` '"
 	echo "             |-|"
 	echo "             |-|O"
 	echo "             |-(\,__"
@@ -506,47 +536,197 @@ function creditspart()
 	echo -e "$_DEF"
 }
 
-while :
-do
-	header
-	read -p $'\e[35mPath Init (from current directory) :\e[0m ' -e PATHE
+function help()
+{
+	PRG_NAME="basename $0"
+	echo "Help: $PRG_NAME"
+	exit 0
+}
+
+function usage()
+{
+	PRG_NAME=basename "$0"
+	echo "Usage: $PRG_NAME"
+	exit 1
+}
+
+function parsepart()
+{
+	OPT_PARTS[0]=1
+	for ARG in $@
+	do
+		case $ARG in
+			"-"*)
+				break
+			;;
+			"network")
+				OPT_PARTS[1]=1
+			;;
+			"system")
+				OPT_PARTS[2]=1
+			;;
+			"script")
+				OPT_PARTS[3]=1
+			;;
+			"credits" | "credit")
+				OPT_PARTS[2]=1
+			;;
+			*)
+				CHARS=`echo $ARG | grep -o .`
+				for CHAR in $CHARS
+				do
+					case $CHAR in
+						1 | n) OPT_PARTS[1]=1;;
+						2 | o) OPT_PARTS[2]=1;;
+						3 | s) OPT_PARTS[3]=1;;
+						4 | c) OPT_PARTS[4]=1;;
+					esac
+				done
+			;;
+		esac
+	done
+}
+
+function noninteractive()
+{
 	if [ -d "$PATHE" ]; then
-		break;
+		PATHE=$SPWD
 	fi
-done
+	if [ ${OPT_PARTS[0]} -ne 1 ]; then
+		OPT_PARTS=(0 1 1 1 0)
+	fi
+	if [ ${OPT_PARTS[1]} -eq 1 ]; then
+		echo "Network:"
+		networkpart
+		echo -e "\n"
+	fi
+	if [ ${OPT_PARTS[2]} -eq 1 ]; then
+		echo "System:"
+		systempart
+		echo -e "\n"
+	fi
+	if [ ${OPT_PARTS[3]} -eq 1 ]; then
+		echo "Script:"
+		scriptpart
+		echo -e "\n"
+	fi
+	if [ ${OPT_PARTS[4]} -eq 1 ]; then
+		echo "Credits:"
+		creditspart
+		echo -e "\n"
+	fi
+}
 
-clear
-while :
+function interactive()
+{
+	if [ -d "$PATHE" ]; then
+		cd $SPWD
+		clear
+		while :
+		do
+			header
+			if [ $OPT_NO_COLOR -eq 1 ]; then
+				read -p $'Path Init (from current directory): ' -n 1 PATHE
+			else
+				read -p $'\e[35mPath Init (from current directory):\e[0m ' -e PATHE
+			fi
+			if [ -d "$PATHE" ]; then
+				break;
+			fi
+		done
+		clear
+	fi
+
+	clear
+	while :
+	do
+		header
+		echo -e "$_PURPLE"
+		echo "		PRESS	(1)             Network              "
+		echo "		PRESS	(2)             System               "
+		echo "		PRESS	(3)             Scripts              "
+		echo "		PRESS	(c)             Credits				 "
+		echo "		PRESS	(0/q)           Exit                 "
+		echo -e "$_DEF"
+
+		if [ $OPT_NO_COLOR -eq 1 ]; then
+			read -p $'Your choice: ' -n 1 INPUT
+		else
+			read -p $'\e[35mYour choice:\e[0m ' -n 1 INPUT
+		fi
+		header
+		case $INPUT in
+			1)
+				networkpart
+			;;
+			2)
+				systempart
+			;;
+			3)
+				scriptpart
+			;;
+			c)
+				creditspart
+			;;
+			q) break ;;
+			0) break ;;
+		esac
+		if [ $OPT_NO_COLOR -eq 1 ]; then
+			read -p $'Press Enter to continue...' END
+		else
+			read -p $'\e[35mPress Enter to continue...\e[0m' END
+		fi
+	done
+	clear
+}
+
+OPT_NO_COLOR=0
+OPT_NO_INTERACTIVE=0
+OPT_PARTS=(0 0 0 0 0)
+I=1
+
+for OPT in $@
 do
-	cd $SPWD
-
-	header
-	echo -e "$_PURPLE"
-	echo "		PRESS	(1)             Network              "
-	echo "		PRESS	(2)             System               "
-	echo "		PRESS	(3)             Scripts              "
-	echo "		PRESS	(c)             Credits				 "
-	echo "		PRESS	(0/q)           Exit                 "
-	echo -e "$_DEF"
-
-	read -p $'\e[35mYour choice:\e[0m ' -n 1 INPUT
-	header
-	case $INPUT in
-		1)
-			networkpart
+	case $OPT in
+		"--path")
+			if [ -d "${@:$(( I + 1 ))}" ]; then
+				PATHE="${@:$(( I + 1 ))}"
+			fi
 		;;
-		2)
-			systempart
+		"--no-colors")
+			OPT_NO_COLOR=1
+			nocolors
 		;;
-		3)
-			scriptpart
+		"--no-interactive")
+			OPT_NO_INTERACTIVE=1
 		;;
-		c)
-			creditspart
+		"--network" | "--net")
+			parsepart "1"
 		;;
-		q) break ;;
-		0) break ;;
+		"--system" | "--sys")
+			parsepart "2"
+		;;
+		"--script" | "--scr")
+			parsepart "3"
+		;;
+		"--credits" | "--credit" | "--cre")
+			parsepart "4"
+		;;
+		"--part")
+			parsepart "${@:$(( I + 1 ))}"
+		;;
+		"--help")
+			help "$0"
+		;;
+		"-"*)
+			usage "$0"
+		;;
 	esac
-	read -p $'\e[35mPress Enter to continue...\e[0m' END
+	(( I += 1 ))
 done
-clear
+
+if [ $OPT_NO_INTERACTIVE -eq 1 ]; then
+	noninteractive
+else
+	noninteractive
+fi
