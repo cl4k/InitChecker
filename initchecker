@@ -199,7 +199,7 @@ function networkpart()
 	fi
 	sleep .5
 	#question 13
-	RES=$(cat 13)
+	RES=$(cat 13) 
 	echo -e "13 : $RES"
 	sleep .5
 	#question 14
@@ -344,7 +344,7 @@ function systempart()
 	if [ $? ==  0 ]; then
 		echo -e "13 $_GREEN[OK] $_DEF"
 	else
-		cat 13 | grep "top"
+		cat 13 | grep "top" > /dev/null
 		if [ $? ==  0 ]; then
 			echo -e "13 $_GREEN[OK] $_DEF"
 		else	
