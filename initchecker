@@ -128,15 +128,15 @@ function networkpart()
 	sleep .5
 	#question 8
 	RES=$(cat 08)
-	grep "Amazon" 08 > /dev/null
+	grep -i "Amazon" 08 > /dev/null
 	if [ $? ==  0 ]; then
 		echo -e "08 $_GREEN[OK] $_DEF"
 	else
-		grep "aws" 08 > /dev/null
+		grep -i "aws" 08 > /dev/null
 		if [ $? ==  0 ]; then
 			echo -e "08 $_GREEN[OK] $_DEF"
 		else	
-			grep "AWS" 08 > /dev/null
+			grep -i "AWS" 08 > /dev/null
 			if [ $? ==  0 ]; then
 				echo -e "08 $_GREEN[OK] $_DEF"
 			else	
