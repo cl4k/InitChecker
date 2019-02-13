@@ -136,14 +136,9 @@ function networkpart()
 		if [ $? ==  0 ]; then
 			echo -e "08 $_GREEN[OK] $_DEF"
 		else	
-			grep -i "AWS" 08 > /dev/null
-			if [ $? ==  0 ]; then
-				echo -e "08 $_GREEN[OK] $_DEF"
-			else	
-				echo -e "08 $_RED[KO] $_DEF"
-				echo -en "you wrote this :  "
-				echo -e " $RES"
-			fi
+			echo -e "08 $_RED[KO] $_DEF"
+			echo -en "you wrote this :  "
+			echo -e " $RES"
 		fi
 	fi
 	sleep .5
@@ -451,7 +446,12 @@ function systempart()
 	if [ $? ==  0 ]; then
 		echo -e "24 $_GREEN[OK] $_DEF"
 	else
-		echo -e "24 $_RED[KO] $_DEF"
+		cat 24 | grep "apt" > /dev/null
+		if [ $? ==  0 ]; then
+			echo -e "24 $_GREEN[OK] $_DEF"
+		else
+			echo -e "24 $_RED[KO] $_DEF"
+		fi
 	fi
 }
 
