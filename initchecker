@@ -384,7 +384,12 @@ function systempart()
 	if [ $? ==  0 ]; then
 		echo -e "18 $_GREEN[OK] $_DEF"
 	else
-		echo -e "18 $_RED[KO] $_DEF"
+		cat 18 | grep "pkill ssh" > /dev/null
+		if [ $? ==  0 ]; then
+			echo -e "18 $_GREEN[OK] $_DEF"
+		else 
+			echo -e "18 $_RED[KO] $_DEF"
+		fi
 	fi
 	sleep 0.5
 	#question 19
